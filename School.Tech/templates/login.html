@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Connexion{% endblock %}
+{% block content %}
+<div class="formbox">
+<h1>Connexion</h1>
+<form method="post">
+<label>E-mail</label><input type="email" name="email" required>
+<label>Mot de passe</label><input type="password" name="password" required>
+<button>Se connecter</button>
+</form>
+</div>
+{% endblock %}

@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% block title %}Tableau de bord{% endblock %}
+{% block content %}
+<h1>Bonjour {{ session["name"] }} 👋</h1>
+<p class="muted">Voici ton espace personnel School.Tech.</p>
+
+<div class="stats">
+<div><small>Moyenne</small><strong>{% if average is not none %}{{ average }}/20{% else %}—{% endif %}</strong></div>
+<div><small>Évaluations</small><strong>{{ results|length }}</strong></div>
+<div><small>À revoir</small><strong>{{ weak|length }}</strong></div>
+</div>
+
+<div class="grid">
+<section class="panel">
+<h2>Ajouter un résultat</h2>
+<form method="post" action="{{ url_for('add_result') }}">
+<label>Matière</label><input name="subject" placeholder="Mathématiques" required>
+<label>Notion</label><input name="topic" placeholder="Dérivées" required>
+<label>Note /20</label><input type="number" name="score" min="0" max="20" step="0.5" required>
+<button>Enregistrer</button>
+</form>
+</section>
+
+<section class="panel">
+<h2>Ajouter une tâche</h2>
+<form method="post" action="{{ url_for('add_task') }}">
+<label>Devoir / tâche</label><input name="title" placeholder="Exercices de physique" required>
+<label>Date limite</label><input type="date" name="due_date">
+<button>Ajouter</button>
+</form>
+</section>
+</div>
+
+<section class="panel">
+<h2>🎯 Priorités de révision</h2>
+{% if weak %}
+<ul>
+{% for r in weak %}
+<li><b>{{ r["subject"] }}</b> — {{ r["topic"] }} : <strong>{{ r["score"] }}/20</strong></li>
+{% endfor %}
+</ul>
+{% else %}
+<p>Aucune difficulté détectée pour le moment. Continue comme ça !</p>
+{% endif %}
+</section>
+
+<section class="panel">
+<h2>📋 Mes tâches</h2>
+{% if tasks %}
+<ul>
+{% for t in tasks %}
+<li>
+{% if t["status"] == "Terminé" %}✅{% else %}⬜{% endif %}
+{{ t["title"] }} {% if t["due_date"] %}— {{ t["due_date"] }}{% endif %}
+{% if t["status"] != "Terminé" %}
+<a href="{{ url_for('task_done', task_id=t['id']) }}">Terminer</a>
+{% endif %}
+</li>
+{% endfor %}
+</ul>
+{% else %}<p>Aucune tâche.</p>{% endif %}
+</section>
+
+<section class="panel">
+<h2>📊 Mes résultats</h2>
+{% if results %}
+<table><tr><th>Matière</th><th>Notion</th><th>Note</th></tr>
+{% for r in results %}
+<tr><td>{{ r["subject"] }}</td><td>{{ r["topic"] }}</td><td>{{ r["score"] }}/20</td></tr>
+{% endfor %}
+</table>
+{% else %}<p>Ajoute ton premier résultat.</p>{% endif %}
+</section>
+{% endblock %}

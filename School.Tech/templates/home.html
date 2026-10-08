@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}School.Tech{% endblock %}
+{% block content %}
+<section class="hero">
+  <div>
+    <p class="tag">L'éducation, plus simple.</p>
+    <h1>Repérer ses difficultés avant qu'elles deviennent un problème.</h1>
+    <p>School.Tech aide l'élève à suivre ses résultats, identifier les notions à revoir et organiser son travail.</p>
+    <a class="button" href="{{ url_for('register') }}">Commencer gratuitement</a>
+  </div>
+</section>
+<section class="cards">
+  <div><b>🎯 Priorités</b><p>Les notions sous 10/20 sont signalées pour guider les révisions.</p></div>
+  <div><b>🔒 Personnel</b><p>Chaque compte ne voit que ses propres résultats.</p></div>
+  <div><b>📚 Organisation</b><p>Les devoirs et tâches sont regroupés au même endroit.</p></div>
+</section>
+{% endblock %}
